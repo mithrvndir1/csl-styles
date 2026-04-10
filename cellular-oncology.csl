@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-US">
+  <info>
+    <title>Cellular Oncology</title>
+    <title-short>Cell. Oncol.</title-short>
+    <id>http://www.zotero.org/styles/cellular-oncology</id>
+    <link href="http://www.zotero.org/styles/cellular-oncology" rel="self"/>
+    <link href="https://link.springer.com/journal/13402/submission-guidelines" rel="documentation"/>
+    <author>
+      <name>Claude (Anthropic)</name>
+    </author>
+    <category citation-format="numeric"/>
+    <category field="biology"/>
+    <category field="medicine"/>
+    <issn>2211-3428</issn>
+    <eissn>2211-3436</eissn>
+    <updated>2026-04-10T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+
+  <!-- In-text citation: numeric in square brackets [1], [2, 3], [4–6] -->
+  <macro name="author">
+    <names variable="author">
+      <name sort-separator=" " initialize-with="." name-as-sort-order="first" delimiter=", " delimiter-precedes-last="always"/>
+      <label form="short" prefix=" (" suffix=")" strip-periods="true"/>
+      <substitute>
+        <names variable="editor"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="editor">
+    <names variable="editor">
+      <label form="short" suffix=" " strip-periods="true"/>
+      <name sort-separator=" " initialize-with="." delimiter=", " delimiter-precedes-last="always"/>
+    </names>
+  </macro>
+
+  <macro name="year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <macro name="title">
+    <text variable="title"/>
+  </macro>
+
+  <macro name="accessed-date">
+    <choose>
+      <if variable="URL">
+        <group prefix=" Accessed " delimiter=" ">
+          <date variable="accessed">
+            <date-part name="day" suffix=" "/>
+            <date-part name="month" suffix=" "/>
+            <date-part name="year"/>
+          </date>
+        </group>
+      </if>
+    </choose>
+  </macro>
+
+  <!-- Citation -->
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="[" suffix="]" delimiter=", ">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <!-- Bibliography -->
+  <bibliography et-al-min="99" et-al-use-first="98" second-field-align="flush" entry-spacing="0">
+    <layout suffix="">
+      <text variable="citation-number" suffix=". "/>
+      <text macro="author" suffix=", "/>
+
+      <choose>
+        <!-- Journal article -->
+        <if type="article-journal">
+          <group>
+            <text macro="title" suffix=". "/>
+            <text variable="container-title" form="short" strip-periods="true" suffix=" "/>
+            <choose>
+              <if variable="page">
+                <!-- Article with volume and pages: no DOI -->
+                <group>
+                  <text variable="volume" font-weight="bold"/>
+                  <text value=", "/>
+                  <text variable="page"/>
+                  <text macro="year" prefix=" (" suffix=")"/>
+                </group>
+              </if>
+              <else>
+                <!-- Article without pages (e-only): use DOI -->
+                <group>
+                  <text variable="volume" font-weight="bold"/>
+                  <text macro="year" prefix=" (" suffix=")"/>
+                  <text variable="DOI" prefix=". doi:"/>
+                </group>
+              </else>
+            </choose>
+          </group>
+        </if>
+
+        <!-- Book (authored) -->
+        <else-if type="book">
+          <group>
+            <text macro="title"/>
+            <text variable="edition" prefix=", " suffix=" edn."/>
+            <group prefix=" (" suffix=")" delimiter=", ">
+              <text variable="publisher"/>
+              <text variable="publisher-place"/>
+              <text macro="year"/>
+            </group>
+            <text variable="page" prefix=", pp. "/>
+          </group>
+        </else-if>
+
+        <!-- Book chapter -->
+        <else-if type="chapter paper-conference" match="any">
+          <group>
+            <text value="in" suffix=" "/>
+            <text variable="container-title" font-style="italic"/>
+            <text macro="editor" prefix=", "/>
+            <group prefix=" (" suffix=")" delimiter=", ">
+              <text variable="publisher"/>
+              <text variable="publisher-place"/>
+              <text macro="year"/>
+            </group>
+            <text variable="page" prefix=", p. "/>
+          </group>
+        </else-if>
+
+        <!-- Edited book -->
+        <else-if type="edited-book">
+          <group>
+            <text value="(eds) " prefix="" suffix=""/>
+            <text macro="title"/>
+            <group prefix=" (" suffix=")" delimiter=", ">
+              <text variable="publisher"/>
+              <text variable="publisher-place"/>
+              <text macro="year"/>
+            </group>
+            <text variable="page" prefix=" pp "/>
+          </group>
+        </else-if>
+
+        <!-- Webpage / online document -->
+        <else-if type="webpage post-weblog" match="any">
+          <group>
+            <text value="in" suffix=" "/>
+            <text macro="title"/>
+            <text variable="URL" prefix=". "/>
+            <text macro="accessed-date"/>
+          </group>
+        </else-if>
+
+        <!-- Thesis -->
+        <else-if type="thesis">
+          <group>
+            <text macro="title" suffix=". "/>
+            <text variable="genre" suffix=", "/>
+            <text variable="publisher"/>
+            <text macro="year" prefix=" (" suffix=")"/>
+          </group>
+        </else-if>
+
+        <!-- Fallback for other types -->
+        <else>
+          <group>
+            <text macro="title" suffix=". "/>
+            <text variable="container-title" form="short" suffix=" "/>
+            <text variable="volume" font-weight="bold"/>
+            <text variable="page" prefix=", "/>
+            <text macro="year" prefix=" (" suffix=")"/>
+          </group>
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+</style>
